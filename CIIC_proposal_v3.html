@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CIIC マーケティング基盤整備 提案概要</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --navy:   #0D1F3C;
+  --blue:   #1A56A0;
+  --blue-l: #E8F0FB;
+  --green:  #1B6B3A;
+  --green-l:#E6F4EC;
+  --red:    #C0392B;
+  --red-l:  #FDECEA;
+  --amber:  #7C4A00;
+  --amber-l:#FEF3DC;
+  --gray-1: #F7F8FA;
+  --gray-2: #EAEDF2;
+  --gray-3: #B0B8C5;
+  --text:   #1A2332;
+  --sub:    #4A5568;
+  --white:  #FFFFFF;
+  --border: #D4DBE8;
+}
+body { font-family:'Noto Sans JP',sans-serif; font-size:15px; line-height:1.8; color:var(--text); background:var(--gray-1); }
+.page { max-width:880px; margin:0 auto; padding:48px 24px 80px; }
+
+/* ヘッダー */
+.doc-header { background:var(--navy); color:var(--white); padding:40px 48px; border-radius:12px; margin-bottom:12px; }
+.doc-header .label { font-size:11px; letter-spacing:.12em; color:var(--gray-3); margin-bottom:10px; text-transform:uppercase; }
+.doc-header h1 { font-size:24px; font-weight:900; line-height:1.35; margin-bottom:14px; }
+.doc-header .sub { font-size:13px; color:#A8BAD4; line-height:1.75; }
+
+/* イントロ */
+.intro { background:var(--white); border:1.5px solid var(--border); border-radius:10px; padding:26px 32px; margin-bottom:36px; }
+.intro p { font-size:14px; line-height:1.9; color:var(--text); margin-bottom:12px; }
+.intro p:last-of-type { margin-bottom:14px; }
+.tag-row { display:flex; gap:8px; flex-wrap:wrap; }
+.tag { background:var(--blue-l); color:var(--navy); font-size:12px; font-weight:700; padding:4px 14px; border-radius:99px; }
+
+/* セクション共通 */
+.section { margin-bottom:52px; }
+.sec-title { font-size:17px; font-weight:700; color:var(--navy); border-bottom:2px solid var(--navy); padding-bottom:10px; margin-bottom:22px; display:flex; align-items:center; gap:10px; }
+.sec-num { width:28px; height:28px; background:var(--navy); color:white; border-radius:50%; font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.lead { font-size:14px; color:var(--sub); line-height:1.85; margin-bottom:20px; }
+
+/* カード */
+.card { background:var(--white); border:1.5px solid var(--border); border-radius:10px; overflow:hidden; margin-bottom:16px; }
+.card-head { padding:13px 20px; font-size:13px; font-weight:700; display:flex; align-items:center; gap:10px; }
+.card-body { padding:18px 22px; }
+
+/* Before/After */
+.ba { display:grid; grid-template-columns:1fr auto 1fr; margin-bottom:16px; border-radius:10px; overflow:hidden; box-shadow:0 2px 10px rgba(0,0,0,.06); }
+.ba-b { background:var(--red-l); padding:22px; border:1.5px solid #F0C5C0; border-right:none; border-radius:10px 0 0 10px; }
+.ba-arr { background:var(--gray-2); display:flex; align-items:center; justify-content:center; padding:0 14px; font-size:20px; color:var(--gray-3); flex-shrink:0; }
+.ba-a { background:var(--green-l); padding:22px; border:1.5px solid #A8D9BB; border-left:none; border-radius:0 10px 10px 0; }
+.ba-lbl { font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; margin-bottom:6px; }
+.ba-b .ba-lbl { color:var(--red); }
+.ba-a .ba-lbl { color:var(--green); }
+.ba-ttl { font-size:14px; font-weight:700; margin-bottom:7px; line-height:1.4; }
+.ba-b .ba-ttl { color:var(--red); }
+.ba-a .ba-ttl { color:var(--green); }
+.ba-txt { font-size:13px; color:var(--sub); line-height:1.75; }
+.hl { font-weight:700; color:var(--text); }
+
+/* 注記 */
+.note { font-size:12px; color:var(--sub); background:var(--gray-2); border-radius:6px; padding:10px 14px; margin-top:12px; line-height:1.7; }
+.note-blue { background:var(--blue-l); color:var(--navy); border-radius:8px; padding:12px 16px; font-size:13px; margin-top:12px; }
+
+/* 優先度グリッド（問題点4点） */
+.grid2 { display:grid; grid-template-columns:1fr 1fr; border:1.5px solid var(--border); border-radius:10px; overflow:hidden; margin-bottom:16px; }
+.grid2-head { grid-column:1/-1; background:var(--amber); color:white; padding:12px 20px; font-size:13px; font-weight:700; }
+.grid2-cell { padding:16px 20px; }
+.grid2-cell:nth-child(odd):not(:first-child) { border-right:1px solid var(--border); }
+.grid2-cell:nth-child(n+3):nth-child(-n+4) { border-top:1px solid var(--border); }
+.grid2-label { font-size:12px; font-weight:700; color:var(--amber); margin-bottom:5px; }
+.grid2-body { font-size:12px; color:var(--sub); line-height:1.7; }
+
+/* ダブルファネル */
+.funnel-wrap { background:var(--white); border:1.5px solid var(--border); border-radius:10px; padding:28px 24px; margin-bottom:16px; }
+.legend { display:flex; gap:20px; flex-wrap:wrap; margin-bottom:20px; }
+.legend-item { display:flex; align-items:center; gap:7px; font-size:12px; color:var(--sub); }
+.legend-dot { width:13px; height:13px; border-radius:2px; flex-shrink:0; }
+.funnel-inner { display:flex; gap:0; align-items:stretch; }
+.funnel-phases { flex:1; display:flex; flex-direction:column; gap:7px; justify-content:center; }
+.phase { border-left:3px solid; padding:10px 16px; border-radius:0 6px 6px 0; }
+.phase-lbl { font-size:10px; font-weight:700; letter-spacing:.06em; margin-bottom:3px; }
+.phase-txt { font-size:12px; color:var(--sub); line-height:1.65; }
+.phase.low { border-color:var(--gray-3); background:var(--gray-1); }
+.phase.low .phase-lbl { color:var(--gray-3); }
+.phase.mid { border-color:#B0C8E8; background:#F0F5FB; }
+.phase.mid .phase-lbl { color:#1A56A0; }
+.phase.hi { border-color:var(--blue); background:#EBF3FF; }
+.phase.hi .phase-lbl { color:var(--blue); }
+.phase.hi .phase-txt { color:var(--text); font-weight:500; }
+.phase.top { border-color:var(--navy); background:#E6EBF5; }
+.phase.top .phase-lbl { color:var(--navy); }
+.phase.top .phase-txt { color:var(--text); font-weight:500; }
+.divider-row { display:flex; align-items:center; gap:8px; padding:2px 0; }
+.divider-line { flex:1; height:1px; background:var(--border); }
+.divider-badge { font-size:11px; font-weight:700; color:var(--navy); background:var(--blue-l); padding:3px 12px; border-radius:99px; white-space:nowrap; }
+
+/* ブランディング目標 */
+.brand-goal { background:var(--navy); color:white; border-radius:10px; padding:32px; margin-bottom:20px; text-align:center; }
+.brand-goal .g-lbl { font-size:11px; letter-spacing:.12em; color:#A8BAD4; text-transform:uppercase; margin-bottom:12px; }
+.brand-goal .g-txt { font-size:20px; font-weight:700; line-height:1.55; }
+.brand-goal .g-sub { font-size:13px; color:#A8BAD4; margin-top:12px; line-height:1.7; }
+.brand-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:12px; }
+.brand-card { background:var(--white); border:1.5px solid var(--border); border-radius:8px; padding:16px; }
+.brand-card-ttl { font-size:13px; font-weight:700; margin-bottom:6px; }
+.brand-card-txt { font-size:12px; color:var(--sub); }
+
+/* セグメント表 */
+.seg-table { width:100%; border-collapse:collapse; font-size:13px; }
+.seg-table th { background:var(--navy); color:white; padding:12px 16px; text-align:left; font-weight:700; border:1px solid var(--border); }
+.seg-table td { padding:14px 16px; border:1px solid var(--border); vertical-align:top; line-height:1.65; }
+.seg-green-row td:first-child { background:#E6F4EC; color:var(--green); font-weight:700; }
+.seg-green-row td:not(:first-child) { background:#F0FAF3; }
+.seg-gray-row td:first-child { background:#F5F5F5; color:var(--sub); font-weight:700; }
+.seg-gray-row td:not(:first-child) { background:#FAFAFA; color:var(--sub); }
+.seg-tag { font-size:11px; font-weight:700; color:var(--sub); margin-bottom:6px; display:block; }
+.seg-ul { list-style:none; display:flex; flex-direction:column; gap:4px; }
+.seg-ul li { padding-left:14px; position:relative; font-size:12px; color:var(--text); }
+.seg-ul li::before { content:'·'; position:absolute; left:0; font-weight:700; }
+.seg-ul.green li::before { color:var(--green); }
+.seg-ul.gray li::before { color:var(--gray-3); }
+
+/* STEPメニュー */
+.step-block { display:flex; flex-direction:column; gap:12px; }
+.step { background:var(--white); border:1.5px solid var(--border); border-radius:10px; overflow:hidden; }
+.step.primary { border:2px solid var(--blue); box-shadow:0 0 0 3px rgba(26,86,160,.08); }
+.step-head { padding:13px 20px; display:flex; align-items:center; gap:12px; }
+.step-badge { font-size:11px; font-weight:700; padding:3px 12px; border-radius:99px; letter-spacing:.05em; background:rgba(255,255,255,.15); }
+.step-title { font-size:15px; font-weight:700; }
+.step-note { margin-left:auto; font-size:12px; opacity:.75; }
+.step-body-single { padding:20px 24px; }
+.step-body-single .step-lead { font-size:13px; color:var(--sub); margin-bottom:12px; }
+.step-cols { display:grid; gap:0; }
+.step-cols.col3 { grid-template-columns:repeat(3,1fr); }
+.step-cols.col2 { grid-template-columns:1fr 1fr; }
+.step-col { padding:18px 20px; }
+.step-col:not(:last-child) { border-right:1px solid var(--border); }
+.step-col-lbl { font-size:11px; font-weight:700; color:var(--sub); margin-bottom:6px; letter-spacing:.05em; }
+.step-col-ttl { font-size:13px; font-weight:700; margin-bottom:8px; }
+.step-ul { list-style:none; display:flex; flex-direction:column; gap:4px; }
+.step-ul li { font-size:12px; color:var(--sub); padding-left:14px; position:relative; }
+.step-ul li::before { content:'·'; position:absolute; left:0; font-weight:700; }
+.step-ul-main { list-style:none; display:flex; flex-direction:column; gap:6px; }
+.step-ul-main li { font-size:13px; color:var(--text); padding-left:16px; position:relative; }
+.step-ul-main li::before { content:'·'; position:absolute; left:0; font-weight:700; }
+
+/* グランドスケジュール */
+.gs { border:1.5px solid var(--border); border-radius:10px; overflow:hidden; margin-bottom:16px; }
+.gs-row { display:grid; grid-template-columns:36px 1fr; align-items:start; gap:12px; padding:14px 20px; border-bottom:1px solid var(--border); }
+.gs-row:last-child { border-bottom:none; }
+.gs-row.navy { background:var(--navy); color:white; }
+.gs-row.navy .gs-body p { color:rgba(255,255,255,.7); }
+.gs-row.green { background:var(--green-l); }
+.gs-row.green .gs-ttl { color:var(--green); }
+.gs-num { width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; flex-shrink:0; margin-top:2px; }
+.gs-row.navy .gs-num { background:rgba(255,255,255,.2); color:white; }
+.gs-row:not(.navy):not(.green) .gs-num { background:var(--blue-l); color:var(--blue); }
+.gs-row.green .gs-num { background:var(--green); color:white; }
+.gs-ttl { font-size:13px; font-weight:700; margin-bottom:3px; }
+.gs-body p { font-size:12px; color:var(--sub); line-height:1.65; }
+
+@media(max-width:640px){
+  .ba { grid-template-columns:1fr; }
+  .ba-arr { display:none; }
+  .ba-b { border-radius:10px 10px 0 0; border-right:1.5px solid #F0C5C0; border-bottom:none; }
+  .ba-a { border-radius:0 0 10px 10px; border-left:1.5px solid #A8D9BB; }
+  .brand-cards,.step-cols.col3 { grid-template-columns:1fr; }
+  .step-cols.col2 { grid-template-columns:1fr; }
+  .grid2 { grid-template-columns:1fr; }
+  .grid2-cell:nth-child(odd):not(:first-child) { border-right:none; }
+  .funnel-inner { flex-direction:column; }
+  .doc-header { padding:28px 24px; }
+  .doc-header h1 { font-size:20px; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- ヘッダー -->
+<div class="doc-header">
+  <div class="label">CIIC 経営状況分析事業部 ／ 提案概要書</div>
+  <h1>マーケティング整備プロジェクト</h1>
+  <div class="sub">顧客管理とブランディングを軸に、事業成長の基盤を構築する。<br>Webリニューアルはその先にある施策として位置づける。</div>
+</div>
+
+<!-- はじめに -->
+<div class="intro" style="margin-bottom:36px;">
+  <p>CIIC様とのプロジェクトを進めるにあたり、現場の担当者の皆様から特設ウェブサイトに関する課題や、事業に関する課題のお話を伺いました。</p>
+  <p>本資料では、ウェブリニューアルを全体の一工程として位置づけ、それに限定せず<strong>CIIC様の事業成長に貢献するための包括的な支援</strong>という視点から、提案の方向性を整理いたします。</p>
+  <div class="tag-row">
+    <span class="tag">顧客管理基盤の整備</span>
+    <span class="tag">ブランディング設計</span>
+    <span class="tag">Webサイトのリニューアル</span>
+    <span class="tag">マーケティング施策の実行</span>
+  </div>
+</div>
+
+<!-- ===== 1. 事業特性とマーケティング方針 ===== -->
+<div class="section">
+  <div class="sec-title"><span class="sec-num">1</span>CIICの事業特性とマーケティング方針</div>
+
+<p class="lead">CIIC様の主要商品である経営状況分析は、<strong>「年に1回・選択肢が少ない・消極的選択」</strong>という特性を持っている。この特性から、購入前の認知獲得や比較検討に注力するよりも、<strong>一度ご利用いただいたお客様が翌年以降も継続して利用し、さらに他のお客様を紹介してくれる状態</strong>を構築することが、事業成長の鍵となる。</p>
+
+  <p class="lead">今回のプロジェクトは以下の3つの大きな取り組みで構成される。それぞれがダブルファネルの異なるフェーズに対応している。</p>
+
+  <!-- 3要素とファネルの対応図 -->
+  <div style="background:var(--white);border:1.5px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:20px;">
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0;">
+      <div style="padding:20px 22px;border-right:1px solid var(--border);position:relative;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--gray-3);text-transform:uppercase;margin-bottom:8px;">取り組み 1</div>
+        <div style="font-size:15px;font-weight:700;color:#2E4A6E;margin-bottom:8px;">ブランディング</div>
+        <div style="font-size:12px;color:var(--sub);line-height:1.7;margin-bottom:12px;">「誰にどう認知されたいか」を定義し、全施策の方向性を揃える基盤設計。</div>
+        <div style="display:flex;flex-direction:column;gap:4px;">
+          <div style="font-size:11px;background:var(--gray-2);color:var(--sub);padding:3px 10px;border-radius:4px;text-align:center;">認知 / 興味・関心</div>
+          <div style="font-size:11px;background:#E6EBF5;color:var(--navy);padding:3px 10px;border-radius:4px;text-align:center;font-weight:700;">忠誠 / 共有・紹介</div>
+        </div>
+      </div>
+      <div style="padding:20px 22px;border-right:1px solid var(--border);background:var(--blue-l);">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--blue);text-transform:uppercase;margin-bottom:8px;">取り組み 2　★最優先</div>
+        <div style="font-size:15px;font-weight:700;color:var(--blue);margin-bottom:8px;">顧客基盤構築</div>
+        <div style="font-size:12px;color:var(--sub);line-height:1.7;margin-bottom:12px;">顧客情報を正確に管理し、適切なコミュニケーションで継続・忠誠・紹介を促す仕組みをつくる。</div>
+        <div style="display:flex;flex-direction:column;gap:4px;">
+          <div style="font-size:11px;background:var(--blue);color:white;padding:3px 10px;border-radius:4px;text-align:center;font-weight:700;">継続 / 忠誠</div>
+          <div style="font-size:11px;background:#0D1F3C;color:white;padding:3px 10px;border-radius:4px;text-align:center;font-weight:700;">共有・紹介 / 発信・口コミ</div>
+        </div>
+      </div>
+      <div style="padding:20px 22px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--gray-3);text-transform:uppercase;margin-bottom:8px;">取り組み 3</div>
+        <div style="font-size:15px;font-weight:700;color:var(--navy);margin-bottom:8px;">サイトリニューアル</div>
+        <div style="font-size:12px;color:var(--sub);line-height:1.7;margin-bottom:12px;">新規のお客様が迷わず申し込める体験を設計し、入口を広げる。顧客基盤が整ったあとに効果が最大化する。</div>
+        <div style="display:flex;flex-direction:column;gap:4px;">
+          <div style="font-size:11px;background:#B0C8E8;color:#1A56A0;padding:3px 10px;border-radius:4px;text-align:center;font-weight:700;">比較・検討 / 購入</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="lead">この事業特性を考慮し、CIIC様が最重要視すべきマーケティングフェーズは、ダブルファネルの<strong>「継続・忠誠・紹介」</strong>であると定義する。</p>
+
+  <!-- ダブルファネル図 -->
+  <div class="funnel-wrap">
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--blue);"></div><span>CIICが<strong style="color:var(--text);">最重視する</strong>フェーズ</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#B0C8E8;"></div><span>顧客基盤が整ってから取り組むフェーズ</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--gray-2);"></div><span>現時点では優先度が低いフェーズ</span></div>
+    </div>
+    <div class="funnel-inner">
+      <!-- SVG -->
+      <div style="flex:0 0 320px;display:flex;align-items:center;justify-content:center;padding-right:20px;">
+        <svg viewBox="0 0 320 360" width="320" height="360" xmlns="http://www.w3.org/2000/svg" font-family="Noto Sans JP,sans-serif">
+
+          <!-- ===== 左ラベル：Webサイトリニューアル ===== -->
+          <!-- ブラケット線 -->
+          <path d="M 52,18 Q 44,18 44,26 L 44,148 Q 44,156 52,156" fill="none" stroke="#4A6FA5" stroke-width="1.5"/>
+          <!-- ラベル -->
+          <text x="5" y="72" font-size="10" fill="#4A6FA5" font-weight="700" writing-mode="lr">
+            <tspan x="5" dy="0">Webサイト</tspan>
+            <tspan x="5" dy="14">リニューアル</tspan>
+          </text>
+
+          <!-- ===== 左ラベル：顧客基盤構築 ===== -->
+          <path d="M 52,181 Q 44,181 44,189 L 44,334 Q 44,342 52,342" fill="none" stroke="#1A56A0" stroke-width="1.5"/>
+          <text x="5" y="258" font-size="10" fill="#1A56A0" font-weight="700">
+            <tspan x="5" dy="0">顧客基盤</tspan>
+            <tspan x="5" dy="14">構築</tspan>
+          </text>
+
+          <!-- ===== ファネル本体（x方向を+60シフト） ===== -->
+          <!-- 認知 -->
+          <rect x="70" y="8" width="180" height="36" fill="#EAEDF2" rx="3"/>
+          <text x="160" y="31" text-anchor="middle" font-size="13" fill="#888">認知</text>
+          <!-- 興味・関心 -->
+          <rect x="84" y="47" width="152" height="34" fill="#EAEDF2" rx="3"/>
+          <text x="160" y="69" text-anchor="middle" font-size="13" fill="#888">興味・関心</text>
+          <!-- 比較・検討 -->
+          <rect x="100" y="84" width="120" height="34" fill="#B0C8E8" rx="3"/>
+          <text x="160" y="106" text-anchor="middle" font-size="13" fill="#1A56A0" font-weight="500">比較・検討</text>
+          <!-- 購入 -->
+          <rect x="118" y="121" width="84" height="34" fill="#B0C8E8" rx="3"/>
+          <text x="160" y="143" text-anchor="middle" font-size="13" fill="#1A56A0" font-weight="500">購入</text>
+          <!-- くびれ -->
+          <rect x="142" y="158" width="36" height="10" fill="#0D1F3C" rx="2"/>
+          <!-- 継続 -->
+          <rect x="118" y="171" width="84" height="36" fill="#1A56A0" rx="3"/>
+          <text x="160" y="194" text-anchor="middle" font-size="13" fill="white" font-weight="700">継続</text>
+          <!-- 忠誠 -->
+          <rect x="100" y="210" width="120" height="36" fill="#1A56A0" rx="3"/>
+          <text x="160" y="233" text-anchor="middle" font-size="13" fill="white" font-weight="700">忠誠</text>
+          <!-- 共有・紹介 -->
+          <rect x="84" y="249" width="152" height="36" fill="#1A56A0" rx="3"/>
+          <text x="160" y="272" text-anchor="middle" font-size="13" fill="white" font-weight="700">共有・紹介</text>
+          <!-- 発信・口コミ -->
+          <rect x="70" y="288" width="180" height="36" fill="#0D1F3C" rx="3"/>
+          <text x="160" y="311" text-anchor="middle" font-size="13" fill="white" font-weight="700">発信・口コミ</text>
+
+          <!-- ===== 右ラベル：ブランディング ===== -->
+          <path d="M 268,8 Q 278,8 278,18 L 278,336 Q 278,346 268,346" fill="none" stroke="#2E4A6E" stroke-width="1.5"/>
+          <text x="283" y="185" font-size="10" fill="#2E4A6E" font-weight="700">
+            <tspan x="283" dy="0">ブラン</tspan>
+            <tspan x="283" dy="14">ディング</tspan>
+          </text>
+
+        </svg>
+      </div>
+      <!-- フェーズ説明 -->
+      <div class="funnel-phases">
+        <div class="phase low">
+          <div class="phase-lbl">認知 / 興味・関心</div>
+          <div class="phase-txt">新規層へのリーチ。現時点では基盤整備が先。コンテンツSEOは中長期施策として位置づける。</div>
+        </div>
+        <div class="phase mid">
+          <div class="phase-lbl">比較・検討 / 購入</div>
+          <div class="phase-txt">Webサイトのリニューアルが主な施策。「初めてでも迷わず申し込める」導線設計。顧客基盤が整ったあとに効果が最大化する。</div>
+        </div>
+        <div class="divider-row">
+          <div class="divider-line"></div>
+          <div class="divider-badge">ここから下を先に固める</div>
+          <div class="divider-line"></div>
+        </div>
+        <div class="phase hi">
+          <div class="phase-lbl">継続</div>
+          <div class="phase-txt">一度申し込んだお客様が来年も使い続ける状態をつくる。顧客情報の正確な管理・更新タイミングの自動フォローが鍵。</div>
+        </div>
+        <div class="phase hi">
+          <div class="phase-lbl">忠誠</div>
+          <div class="phase-txt">「ここしかない」「ここがいい」という信頼を積み重ねる。適切なタイミングでの情報提供・丁寧なサポートがブランド価値を高める。</div>
+        </div>
+        <div class="phase top">
+          <div class="phase-lbl">共有・紹介 / 発信・口コミ</div>
+          <div class="phase-txt">行政書士仲間への紹介、担当建設業者への推薦が生まれる。安定した新規流入の最も質の高いルートとなる。</div>
+        </div>
+      </div>
+    </div>
+    <div class="note" style="margin-top:18px;">このダブルファネルの考え方を共通言語として使うことで、「今の施策がどのフェーズに効くものか」「次に何を優先すべきか」の議論がしやすくなる。</div>
+  </div>
+
+  <div class="note-blue">「継続・忠誠・紹介」のフェーズを強化し、お客様との長期的な関係性を築くことに注力することが、CIIC様の持続的な成長に不可欠であると結論付ける。</div>
+</div>
+
+<!-- ===== 2. 顧客管理の重要性 ===== -->
+<div class="section">
+  <div class="sec-title"><span class="sec-num">2</span>顧客管理の重要性</div>
+
+  <p class="lead">購入後のお客様の「継続・忠誠」が事業成長の鍵であるにもかかわらず、現状のCIIC様では顧客基盤が十分に整理されていない。これはダブルファネルの「継続・忠誠」の部分に大きな<strong>「穴」</strong>が開いている状態に例えられる。</p>
+
+  <!-- BA1：バケツの穴 -->
+  <div class="ba">
+    <div class="ba-b">
+      <div class="ba-lbl">Before｜現状</div>
+      <div class="ba-ttl">バケツに穴が開いたまま水を注いでいる</div>
+      <div class="ba-txt">顧客基盤が整備されていないため、せっかく獲得したお客様が離れていく。顧客情報の散逸・フォロー不足・紹介機会の損失が重なり、<span class="hl">事業成長の機会を逸している</span>。</div>
+    </div>
+    <div class="ba-arr">→</div>
+    <div class="ba-a">
+      <div class="ba-lbl">After｜目指す状態</div>
+      <div class="ba-ttl">穴を塞いでから、新規を増やす</div>
+      <div class="ba-txt">顧客情報を正確に管理し、適切なタイミングでコミュニケーションすることで、<span class="hl">継続率が上がり・忠誠度が高まり・紹介が生まれる</span>好循環をつくる。</div>
+    </div>
+  </div>
+
+  <!-- BA2：DM -->
+  <div class="ba">
+    <div class="ba-b">
+      <div class="ba-lbl">Before｜現状</div>
+      <div class="ba-ttl">DMに多額の費用を投じているが、効果のない送付先が混在している</div>
+      <div class="ba-txt">顧客情報が整理されていないため、<span class="hl">実際には申し込みや再利用につながっていない送付先</span>が一定数含まれている可能性がある。</div>
+    </div>
+    <div class="ba-arr">→</div>
+    <div class="ba-a">
+      <div class="ba-lbl">After｜改善後</div>
+      <div class="ba-ttl">適切な相手に・適切な内容を・適切なタイミングで</div>
+      <div class="ba-txt">顧客情報を整備することで、<span class="hl">セグメントを切った情報発信</span>が可能になる。無駄なコストを削減し、効果の高い施策に予算を集中できる。</div>
+    </div>
+  </div>
+
+  <!-- BA3：廃業行政書士 -->
+  <div class="ba">
+    <div class="ba-b">
+      <div class="ba-lbl">Before｜現状</div>
+      <div class="ba-ttl">廃業した行政書士を通じた顧客流出が起きている</div>
+      <div class="ba-txt">行政書士が廃業・引退した際、引き継ぎの段階で<span class="hl">WISE派の代理人を経由して他社に流れる</span>ケースが発生している。また、新たに申請が必要になったエンドユーザーがウェブ検索した際に他社を選んでしまうことも起きている。</div>
+    </div>
+    <div class="ba-arr">→</div>
+    <div class="ba-a">
+      <div class="ba-lbl">After｜改善後</div>
+      <div class="ba-ttl">廃業のタイミングを捉えた先手のフォローで流出を防ぐ</div>
+      <div class="ba-txt">どの顧客がどの行政書士を経由しているかを把握することで、<span class="hl">廃業・引退のタイミングに合わせた直接コミュニケーション</span>が可能になる。</div>
+    </div>
+  </div>
+
+  <div class="note">※ 新規獲得を軽視しているわけではない。基盤がないと、せっかく新規顧客を獲得しても翌年また利用してもらえるとは限らない。まずバケツの穴を塞ぐことが優先順位として先に来るということ。</div>
+</div>
+
+<!-- ===== 3. ブランディングの目標とWebリニューアル ===== -->
+<div class="section">
+  <div class="sec-title"><span class="sec-num">3</span>ウェブサイトリニューアルの方針</div>
+
+  <p class="lead">顧客基盤が整備された後、Webサイトのリニューアルを進める。このリニューアルにおいては、特に<strong>新規のエンドユーザーや代理人の方が、初めての経営状況分析の全体像や進め方を理解して申し込める</strong>Webサイトを目指す。</p>
+
+  <div class="brand-goal">
+    <div class="g-lbl">このプロジェクトで作りたい状態</div>
+    <div class="g-txt">新規のお客様がWebを見て、<br>全体の進め方やポイントをストレスなく理解でき、<br><span style="color:#FFC94A;">CIICさんでこれからもいいと思ってもらえる状態</span><br>を作ること。</div>
+    <div class="g-sub">一度作れば終わりではなく、常にその状態を維持・強化し続ける継続的な取り組み。</div>
+  </div>
+
+  <!-- BA：ブランディング -->
+  <div class="ba" style="margin-bottom:20px;">
+    <div class="ba-b">
+      <div class="ba-lbl">Before｜現状</div>
+      <div class="ba-ttl">「CIIC？WISE？どこでもいいか」という状態</div>
+      <div class="ba-txt">最大手として一定の認知はあるが、<span class="hl">「圧倒的にCIIC一択」という状況にはなっていない</span>。比較されると価格・利便性だけで選ばれてしまうリスクがある。</div>
+    </div>
+    <div class="ba-arr">→</div>
+    <div class="ba-a">
+      <div class="ba-lbl">After｜目指す状態</div>
+      <div class="ba-ttl">「最大手で安心、もうここでいいよね」という自然な指名が生まれる</div>
+      <div class="ba-txt"><span class="hl">「ここしかないよね」「ここがいいよね」</span>という口コミ・紹介が自然に発生する状態。行政書士から建設業者への紹介もCIICが第一候補になっている。</div>
+    </div>
+  </div>
+
+  <p style="font-size:14px;color:var(--sub);margin-bottom:14px;">Webリニューアルで重視する設計方針：</p>
+  <div class="brand-cards">
+    <div class="brand-card">
+      <div class="brand-card-ttl">初めてでも簡単に申し込める設計</div>
+      <div class="brand-card-txt">直感的で分かりやすいUI/UXを提供し、スムーズな申し込みプロセスを実現する。</div>
+    </div>
+    <div class="brand-card">
+      <div class="brand-card-ttl">顧客に合わせた情報発信</div>
+      <div class="brand-card-txt">更新時期・属性・フェーズに応じて、届ける内容と手段を変える。</div>
+    </div>
+    <div class="brand-card">
+      <div class="brand-card-ttl">サポートの丁寧さ</div>
+      <div class="brand-card-txt">問い合わせへの対応・案内のわかりやすさを継続的に高め、信頼感のある顧客接点をつくる。</div>
+    </div>
+  </div>
+  <div class="note">これらはあくまで周辺施策。根幹にあるのは「正しく顧客情報を管理・更新していく仕組み」であり、プロモーションはその仕組みがあって初めて機能する。</div>
+</div>
+
+<!-- ===== 4. 顧客セグメントと対策表 ===== -->
+<div class="section">
+  <div class="sec-title"><span class="sec-num">4</span>顧客セグメントと対策表</div>
+
+  <p class="lead">ダブルファネルの視点から見た施策の方向性を、顧客をセグメントごとに整理する。</p>
+
+  <div style="overflow-x:auto;margin-bottom:12px;">
+    <table class="seg-table">
+      <thead>
+        <tr>
+          <th style="width:22%;">顧客セグメント</th>
+          <th style="width:39%;">エンドユーザー（建設業者本人）</th>
+          <th style="width:39%;">代理人（行政書士）</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="seg-green-row">
+          <td>完全新規<br><small style="font-weight:400;font-size:11px;">初めて経審</small></td>
+          <td>Web情報で機関を決める傾向あり。公共事業取得〜経営状況分析の全体像コンテンツが核。「初めてでも大丈夫」を体験させる導線設計が重要。</td>
+          <td>独立したての行政書士が狙い目。アウトバウンド・セミナー誘導が有効。</td>
+        </tr>
+        <tr class="seg-gray-row">
+          <td>掛け持ち派<br><small style="font-weight:400;font-size:11px;">CIIC＋WISE</small></td>
+          <td style="color:#888;font-size:13px;">—</td>
+          <td>流出が発生。口コミ・キャッシュバック・廃業引き継ぎが離脱要因。CIICのメリット訴求とCRMで繋ぎ止める。</td>
+        </tr>
+        <tr class="seg-green-row">
+          <td>CIIC既存<br><small style="font-weight:400;font-size:11px;">エンド・パートナー共通</small></td>
+          <td colspan="2">CRM強化・マイページ導線改善・廃業時のエンドユーザー直接連絡体制整備が重要。</td>
+        </tr>
+        <tr class="seg-gray-row">
+          <td>他社利用<br><small style="font-weight:400;font-size:11px;">WISE派</small></td>
+          <td style="font-size:13px;">× アプローチ困難</td>
+          <td style="font-size:13px;">× キャッシュバック構造あり。Webでの対策は限界</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note-blue"><strong>Webリニューアルにおける狙い：</strong>新規獲得（①エンド ②行政書士）に集中しつつ、既存エンド＋行政書士の離脱を最小化する方針。</div>
+</div>
+
+<!-- ===== 5. 提案の方向性 ===== -->
+<div class="section">
+  <div class="sec-title"><span class="sec-num">5</span>提案の方向性｜施策メニューと組み合わせ</div>
+
+  <p class="lead">以下の施策メニューから必要なものを組み合わせて実施する。何をどこまでやるかによって費用・スケジュールが変わる。まずどこから着手するかを一緒に整理することから始める。</p>
+
+  <div class="step-block">
+
+    <!-- STEP 1 ブランディング設計 -->
+    <div class="step">
+      <div class="step-head" style="background:#2E4A6E;color:white;">
+        <span class="step-badge">STEP 1</span>
+        <span class="step-title">ブランディング設計</span>
+        <span class="step-note">すべての施策の出発点</span>
+      </div>
+      <div class="step-body-single">
+        <p class="step-lead">「誰にどう認知されたいか」を定義する。ここが決まってから、ウェブ・顧客管理・コミュニケーションの設計に入る。</p>
+        <ul class="step-ul-main">
+          <li>ターゲット顧客（建設業者・行政書士）の定義・整理</li>
+          <li>CIICとして想起されたいポジションの設計</li>
+          <li>ウェブ開発・施策実行の前提となる概念・方針の策定</li>
+          <li>KPI（重要業績評価指標）の設計</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- STEP 2 顧客管理基盤 -->
+    <div class="step primary">
+      <div class="step-head" style="background:var(--blue);color:white;">
+        <span class="step-badge">STEP 2</span>
+        <span class="step-title">顧客管理基盤の整備</span>
+        <span class="step-note">根幹・最優先</span>
+      </div>
+      <div class="step-cols col3">
+        <div class="step-col">
+          <div class="step-col-lbl">設計</div>
+          <div class="step-col-ttl">顧客管理の設計</div>
+          <ul class="step-ul"><li>理想の顧客管理状態の定義</li><li>顧客セグメント設計</li><li>情報収集・更新フローの設計</li></ul>
+        </div>
+        <div class="step-col">
+          <div class="step-col-lbl">開発</div>
+          <div class="step-col-ttl">CRMシステム構築</div>
+          <ul class="step-ul"><li>CRMシステムの選定・導入</li><li>既存データの移行・整理</li><li>更新タイミングの自動管理</li></ul>
+        </div>
+        <div class="step-col">
+          <div class="step-col-lbl">運用</div>
+          <div class="step-col-ttl">保守・継続運用</div>
+          <ul class="step-ul"><li>システム保守・メンテナンス</li><li>顧客情報の継続的な更新・精度向上</li><li>流出アラートの運用</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3 ウェブサイト -->
+    <div class="step">
+      <div class="step-head" style="background:var(--navy);color:white;">
+        <span class="step-badge">STEP 3</span>
+        <span class="step-title">ウェブサイト関連</span>
+      </div>
+      <div class="step-cols col3">
+        <div class="step-col">
+          <div class="step-col-lbl">設計</div>
+          <div class="step-col-ttl">サイト設計</div>
+          <ul class="step-ul"><li>情報設計・導線設計</li><li>ページ構成・UI/UX設計</li><li>コンテンツ方針の策定</li></ul>
+        </div>
+        <div class="step-col">
+          <div class="step-col-lbl">開発</div>
+          <div class="step-col-ttl">サイト構築</div>
+          <ul class="step-ul"><li>実際のサイト開発・制作</li><li>タグ・SEO基盤整備</li><li>申し込み導線の実装</li></ul>
+        </div>
+        <div class="step-col">
+          <div class="step-col-lbl">運用</div>
+          <div class="step-col-ttl">保守・コンテンツ運用</div>
+          <ul class="step-ul"><li>保守・システム運用</li><li>新規認知向けコンテンツ発信</li><li>申し込みしやすくするための継続改善</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4 マーケティング施策 -->
+    <div class="step">
+      <div class="step-head" style="background:#2E4A6E;color:white;">
+        <span class="step-badge">STEP 4</span>
+        <span class="step-title">マーケティング施策の実行</span>
+      </div>
+      <div class="step-body-single">
+        <p class="step-lead">顧客管理基盤・ウェブが整った状態で、顧客との接点を広げ・深める施策を実行する。</p>
+        <ul class="step-ul-main">
+          <li>メルマガ・DM施策の再設計・実行（顧客セグメント別に最適化）</li>
+          <li>行政書士向け・エンドユーザー向けの情報発信</li>
+          <li>顧客フェーズに応じたコンテンツ作成・配信</li>
+          <li>SNSを活用した情報拡散とエンゲージメント向上</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- STEP 5 効果測定 -->
+    <div class="step">
+      <div class="step-head" style="background:#3A5A3A;color:white;">
+        <span class="step-badge">STEP 5</span>
+        <span class="step-title">効果測定・改善サイクル</span>
+        <span class="step-note">継続的な成長の仕組み</span>
+      </div>
+      <div class="step-cols col2">
+        <div class="step-col">
+          <div class="step-col-lbl">KPI設計・計測</div>
+          <div class="step-col-ttl">重要指標の設定と定期測定</div>
+          <ul class="step-ul"><li>顧客継続率・離脱率のモニタリング</li><li>Webサイトの申し込み転換率の計測</li><li>DM・メルマガの効果測定・レポート作成</li></ul>
+        </div>
+        <div class="step-col">
+          <div class="step-col-lbl">改善提案・実行</div>
+          <div class="step-col-ttl">データに基づく継続改善</div>
+          <ul class="step-ul"><li>データ分析に基づいた改善施策の立案・実行</li><li>顧客セグメント別の施策効果の検証</li><li>定期的な戦略レビューと方針の見直し</li></ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="note" style="margin-top:16px;">上記メニューの中から必要な項目を選択・組み合わせて実施する。何をどこまでやるかによって費用・スケジュールが変わる。まずどこから着手するかを一緒に整理することから始める。</div>
+</div>
+
+<!-- ===== 6. 今後の進め方 ===== -->
+<div class="section">
+  <div class="sec-title"><span class="sec-num">6</span>今後の進め方</div>
+
+  <p class="lead">コンペ書類・要求整理のサポートに合わせて、以下のグランドスケジュールを想定する。</p>
+
+  <div class="gs">
+    <div class="gs-row navy">
+      <div class="gs-num">1</div>
+      <div class="gs-body">
+        <div class="gs-ttl">コンペ</div>
+        <p>提案内容の精査・最終調整。担当者（茨木さん）がベンダーへのコンペ書類や要件定義書を作成できるよう、必要な情報・フォーマットを整えてサポートする。</p>
+      </div>
+    </div>
+    <div class="gs-row">
+      <div class="gs-num">2</div>
+      <div class="gs-body">
+        <div class="gs-ttl">受注者選定</div>
+        <p>提案内容に基づき、最適なパートナーを選定する。</p>
+      </div>
+    </div>
+    <div class="gs-row">
+      <div class="gs-num">3</div>
+      <div class="gs-body">
+        <div class="gs-ttl">契約取り交わし</div>
+        <p>正式な契約締結。<strong style="color:var(--red);">7月1日の部署再編前に合意・発注完了</strong>を目標とする。4月上旬の一次提示から逆算してスケジュールを組む。</p>
+      </div>
+    </div>
+    <div class="gs-row">
+      <div class="gs-num">4</div>
+      <div class="gs-body">
+        <div class="gs-ttl">実行</div>
+        <p>プロジェクト計画に基づいた各フェーズの実施。</p>
+      </div>
+    </div>
+    <div class="gs-row green">
+      <div class="gs-num">5</div>
+      <div class="gs-body">
+        <div class="gs-ttl">完了・継続的改善</div>
+        <p>プロジェクトの完了と成果物の納品。その後も効果測定・改善サイクルを継続する。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="note">※ グランドスケジュールはあくまで目安であり、CIIC様のご要望やプロジェクトの進捗状況に応じて柔軟に調整する。</div>
+</div>
+
+</div>
+</body>
+</html>
